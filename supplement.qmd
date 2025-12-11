@@ -1,0 +1,54 @@
+---
+title: "Supplementary Materials for: Concise, descriptive title"
+author:
+  - name: Jane Q. Researcher
+    email: jane.researcher@example.edu
+    corresponding: true
+    affiliations:
+      - Department of Example, Sample University, City, Country
+bibliography: bibliography.bib
+format:
+  sciadv-pdf:
+    keep-tex: true
+---
+
+## Table of Contents
+
+1. Supplementary Text
+2. Figures S1 to S5
+3. Tables S1 to S3
+4. Captions for Movies S1 to S2
+5. Captions for Data S1 to S2
+6. References (61–75)
+
+## Supplementary Text
+
+Use subheadings as needed (for example, "Study site", "Analytical pipeline", "Sensitivity analyses"). Keep paragraphs left-aligned with line breaks between them.
+
+## Figures
+
+Place each figure on its own page above the caption.
+
+### Fig. S1. Descriptive title
+
+Begin the caption with the figure identifier, followed by a concise description of panels and symbols.
+
+## Tables
+
+Each table should appear on a separate page. Keep wide tables as separate CSV/Excel attachments if they exceed the page width.
+
+### Table S1. Summary statistics
+
+Provide a brief description of the data shown and any abbreviations used.
+
+## Captions for Movies
+
+List media files included outside the PDF. Example: **Movie S1.** A 30-second time-lapse showing particle tracking (MP4, 25 MB).
+
+## Captions for Data
+
+Describe supplemental data files or archives. Example: **Data S1.** CSV containing raw measurements for Figures 2–3.
+
+## References
+
+Cite references in continuation of the main-text numbering, italicized in parentheses per Science Advances style.
