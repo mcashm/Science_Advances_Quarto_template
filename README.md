@@ -7,7 +7,7 @@ A Quarto extension that helps authors draft Science Advances manuscripts and sup
 ### Create a new manuscript project
 
 ```bash
-quarto use template ./ --no-prompt
+quarto use template mcashm/Science_Advances_Quarto_template --no-prompt
 ```
 
 This installs the extension and generates `template.qmd` and `supplement.qmd` with Science Advances scaffolding.
@@ -17,7 +17,7 @@ This installs the extension and generates `template.qmd` and `supplement.qmd` wi
 From your Quarto project directory:
 
 ```bash
-quarto add ./
+quarto add mcashm/Science_Advances_Quarto_template
 ```
 
 Use the `sciadv-pdf` or `sciadv-html` formats in your document YAML:
