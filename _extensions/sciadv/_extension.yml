@@ -1,0 +1,33 @@
+title: Science Advances
+author: Quarto Journals Community
+version: 0.1.0
+quarto-required: ">= 1.5.0"
+contributes:
+  formats:
+    common:
+      toc: false
+      number-sections: false
+      csl: https://www.zotero.org/styles/science-advances
+    pdf:
+      documentclass: article
+      papersize: letter
+      fontsize: 12pt
+      geometry: margin=1in
+      linestretch: 1.2
+      colorlinks: true
+      cite-method: citeproc
+      fig-width: 6.5
+      fig-height: 4.5
+    html:
+      toc: true
+      number-sections: true
+      theme: sciadv.scss
+      linkcolor: "#0a76d6"
+      monofont: "Fira Code"
+      mainfont: "Libre Baskerville"
+      fontsize: 1.05em
+      css: []
+      page-layout: article
+format-links:
+  sciadv-pdf: pdf
+  sciadv-html: html

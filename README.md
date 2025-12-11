@@ -1,53 +1,64 @@
-# Article Format Template (AFT)
+# Science Advances Quarto Template
 
-<!-- REMOVE THIS IN YOUR FORMAT TEMPLATE -->
-> Template for creating a new journal article format for Quarto. 
->
-> This repository is a [Github Repository Template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) that you should use as a starter to create a new extension format. Click on the "Use this template" button at the top !
->
-> See information about how-to use this repo template inside the template file or its rendered version at <https://quarto-journals.github.io/article-format-template/>
+A Quarto extension that helps authors draft Science Advances manuscripts and supplementary materials with journal-aligned structure and defaults.
 
-<!-- ALL THE BELOW SHOULD BE IN YOUR README -->
+## Getting started
 
-This is a Quarto template that assists you in creating a manuscript for Article Format Template journals. You can learn more about ...
-
-## Creating a New Article
-
-You can use this as a template to create an article for an AFT journal. To do this, use the following command:
+### Create a new manuscript project
 
 ```bash
-quarto use template quarto-journals/article-format-template
+quarto use template ./ --no-prompt
 ```
 
-This will install the extension and create an example qmd file and bibiography that you can use as a starting place for your article.
+This installs the extension and generates `template.qmd` and `supplement.qmd` with Science Advances scaffolding.
 
-## Installation For Existing Document
+### Add to an existing project
 
-You may also use this format with an existing Quarto project or document. From the quarto project or document directory, run the following command to install this format:
+From your Quarto project directory:
 
 ```bash
-quarto add quarto-journals/article-format-template
+quarto add ./
 ```
 
-## Usage
-
-To use the format, you can use the format names `aft-pdf` and `aft-html`. For example:
-
-```bash
-quarto render article.qmd --to aft-pdf
-```
-
-or in your document yaml
+Use the `sciadv-pdf` or `sciadv-html` formats in your document YAML:
 
 ```yaml
+title: "Your Manuscript Title"
 format:
-  pdf: default
-  aft-pdf:
-    keep-tex: true    
+  sciadv-pdf:
+    keep-tex: true
+bibliography: bibliography.bib
 ```
 
-You can view a preview of the rendered template at <https://quarto-journals.github.io/article-format-template/>.
+Render with:
 
-## Format Options
+```bash
+quarto render template.qmd --to sciadv-pdf
+quarto render template.qmd --to sciadv-html
+```
 
-This format does not have specific format option. Include documentation of such option otherwise. See <https://github.com/quarto-journals/elsevier#format-options> for an example.
+## Format options
+
+* **Citation style**: Uses the Science Advances CSL (`https://www.zotero.org/styles/science-advances`) via `citeproc` for both HTML and PDF.
+* **Page setup (PDF)**: Letter paper, 12pt base font, 1 in margins, light line stretch (1.2), and colored links.
+* **HTML theme**: `sciadv.scss` applies a readable serif body font with a clean blue accent.
+
+## Manuscript structure
+
+The template shows placeholders for the key Science Advances sections:
+
+- Title, short title, and one-sentence summary (teaser)
+- Authors and affiliations with corresponding author e-mail(s)
+- Abstract (<160 words) and keywords
+- Introduction, Results, Discussion, Materials and Methods
+- References plus required back-matter blocks (Acknowledgments, Funding, Author contributions, Competing interests, Data availability)
+- Supplementary Materials callout
+
+## Supplementary materials
+
+`supplement.qmd` provides a companion layout for the Supplementary Materials PDF. Keep the title and first author consistent with the main manuscript and organize content into Supplementary Text, Figures, Tables, Captions, and References.
+
+## Reference files
+
+- `advances_ms_template_2022.pdf`: Science Advances manuscript instructions
+- `advances_supplementary_materials_template_2022.pdf`: Supplementary materials instructions
