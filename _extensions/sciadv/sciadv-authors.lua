@@ -4,45 +4,107 @@
 local AFFILIATION_SEPARATOR = '\\\\\n'
 
 local function process_authors(meta)
-  if not meta.author then
+  -- In Quarto 1.5+, the structured author data is in meta.authors (note the plural)
+  -- while meta.author contains the simple stringified version
+  local authors_meta = meta.authors  -- This should have the full structure
+  local affiliations_meta = meta.affiliations  -- This should have affiliations
+  
+  -- If meta.authors doesn't exist, we can't process structured author data
+  -- Don't fallback to meta.author as it may not have the structure we need
+  if not authors_meta then
     return meta
   end
   
-  -- Quarto hasn't processed authors yet, so we have the full structure
+  -- Quarto may have already processed authors, let's use that
   local author_names = {}
   local affiliations = {}
   local affil_map = {}
   local affil_num = 1
   local corresponding_email = nil
-  local author_count = 0
   
-  -- Check if we have a list of authors
-  for i, author_item in ipairs(meta.author) do
-    author_count = author_count + 1
+  -- Check if affiliations_meta exists and process it
+  if affiliations_meta then
+    for affil_id, affil in pairs(affiliations_meta) do
+      local affil_text = ""
+      if affil.name then
+        affil_text = pandoc.utils.stringify(affil.name)
+        
+        -- Add other fields if they exist
+        local parts = {}
+        if affil.address then
+          table.insert(parts, pandoc.utils.stringify(affil.address))
+        end
+        if affil.city then
+          table.insert(parts, pandoc.utils.stringify(affil.city))
+        end
+        -- Check both 'state' and 'region' for state/province
+        if affil.state then
+          table.insert(parts, pandoc.utils.stringify(affil.state))
+        elseif affil.region then
+          table.insert(parts, pandoc.utils.stringify(affil.region))
+        end
+        if affil["postal-code"] then
+          table.insert(parts, pandoc.utils.stringify(affil["postal-code"]))
+        end
+        
+        if #parts > 0 then
+          affil_text = affil_text .. ", " .. table.concat(parts, ", ")
+        end
+        
+        -- Store both the numeric ID and potential string ID (e.g., "aff-1" and 1)
+        -- This is necessary because Quarto may reference affiliations using different ID formats
+        affil_map[tostring(affil_id)] = affil_num
+        affil_map[affil_id] = affil_num
+        table.insert(affiliations, {
+          num = affil_num,
+          text = affil_text
+        })
+        affil_num = affil_num + 1
+      end
+    end
+  end
+  
+  -- Process authors
+  for i, author_item in ipairs(authors_meta) do
     local author = author_item
     
     -- Get author name
     local name = ""
     if author.name then
-      name = pandoc.utils.stringify(author.name)
+      -- Check if name is a complex structure with literal field
+      if type(author.name) == "table" and author.name.literal then
+        name = pandoc.utils.stringify(author.name.literal)
+      else
+        name = pandoc.utils.stringify(author.name)
+      end
+    else
+      -- Fallback: stringify the whole author
+      name = pandoc.utils.stringify(author)
     end
     
     local superscripts = {}
     
-    -- Process affiliations if they exist
+    -- Check if author has affiliation references (IDs)
     if author.affiliations then
-      for _, affil in ipairs(author.affiliations) do
-        local affil_text = pandoc.utils.stringify(affil)
-        if affil_text and affil_text ~= "" then
-          if not affil_map[affil_text] then
-            affil_map[affil_text] = affil_num
-            table.insert(affiliations, {
-              num = affil_num,
-              text = affil_text
-            })
-            affil_num = affil_num + 1
-          end
-          table.insert(superscripts, tostring(affil_map[affil_text]))
+      for _, affil_ref in ipairs(author.affiliations) do
+        -- affil_ref might be an ID (string/number) that references meta.affiliations
+        local affil_id = pandoc.utils.stringify(affil_ref)
+        
+        -- Try direct match first (most common case)
+        local affil_num = affil_map[affil_id]
+        
+        -- If not found, try removing "aff-" prefix
+        if not affil_num and affil_id:match("^aff%-") then
+          affil_num = affil_map[affil_id:gsub("aff%-", "")]
+        end
+        
+        -- If still not found, try adding "aff-" prefix
+        if not affil_num then
+          affil_num = affil_map["aff-" .. affil_id]
+        end
+        
+        if affil_num then
+          table.insert(superscripts, tostring(affil_num))
         end
       end
     end

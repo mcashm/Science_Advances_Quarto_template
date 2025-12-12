@@ -1,0 +1,257 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  12pt,
+  letterpaper,
+]{article}
+
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{%
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+
+% Line numbering
+\usepackage{lineno}
+\linenumbers
+
+% Page headers and footers
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyhead[L]{\textit{Science Advances}}
+\fancyhead[R]{\textit{Manuscript Template}}
+\fancyfoot[R]{Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0pt}
+
+\usepackage{setspace}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% pandoc-citeproc
+
+\usepackage{hyperref}
+\hypersetup{
+  pdftitle={Supplementary Materials for: Concise, descriptive title},
+  pdfauthor={Jane Q. Researcher},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+% --- Fix for Pandoc/Quarto CSLReferences + \bibitem ("Lonely \item") ---
+% Pandoc sometimes emits: \begin{CSLReferences} ... \bibitem ...
+% \bibitem requires a thebibliography-like list; enforce that here.
+\makeatletter
+\@ifundefined{CSLReferences}{%
+  \newenvironment{CSLReferences}[2]{%
+    \begin{thebibliography}{99}%
+    \setlength{\itemsep}{0pt}%
+    \setlength{\parskip}{0pt}%
+  }{%
+    \end{thebibliography}%
+  }%
+}{%
+  \renewenvironment{CSLReferences}[2]{%
+    \begin{thebibliography}{99}%
+    \setlength{\itemsep}{0pt}%
+    \setlength{\parskip}{0pt}%
+  }{%
+    \end{thebibliography}%
+  }%
+}
+\makeatother
+% --- end fix ---
+
+% ...existing code...
+
+% Pandoc citeproc helper macro (used in \bibitem[...] labels)
+\providecommand{\citeproctext}{}
+
+% ...existing code...
+
+
+\urlstyle{same} % disable monospaced font for URLs
+
+% Title and author information
+\title{Supplementary Materials for: Concise, descriptive title}
+
+% Custom author formatting with affiliations
+\makeatletter
+\def\@maketitle{%
+  \newpage
+  \null
+  \vskip 1em%
+  \begin{flushleft}%
+  \let \footnote \thanks
+    {\LARGE \textbf{\@title} \par}%
+    \vskip 1em%
+Jane Q. Researcher    \par
+    \vskip 0.5em%
+  \end{flushleft}%
+  \par
+  \vskip 1em}
+\makeatother
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+
+
+
+\setstretch{1.2}
+
+\subsection{Table of Contents}\label{table-of-contents}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Supplementary Text
+\item
+  Figures S1 to S5
+\item
+  Tables S1 to S3
+\item
+  Captions for Movies S1 to S2
+\item
+  Captions for Data S1 to S2
+\item
+  References (61--75)
+\end{enumerate}
+
+\subsection{Supplementary Text}\label{supplementary-text}
+
+Use subheadings as needed (for example, ``Study site'', ``Analytical
+pipeline'', ``Sensitivity analyses''). Keep paragraphs left-aligned with
+line breaks between them.
+
+\subsection{Figures}\label{figures}
+
+Place each figure on its own page above the caption.
+
+\subsubsection{Fig. S1. Descriptive
+title}\label{fig.-s1.-descriptive-title}
+
+Begin the caption with the figure identifier, followed by a concise
+description of panels and symbols.
+
+\subsection{Tables}\label{tables}
+
+Each table should appear on a separate page. Keep wide tables as
+separate CSV/Excel attachments if they exceed the page width.
+
+\subsubsection{Table S1. Summary
+statistics}\label{table-s1.-summary-statistics}
+
+Provide a brief description of the data shown and any abbreviations
+used.
+
+\subsection{Captions for Movies}\label{captions-for-movies}
+
+List media files included outside the PDF. Example: \textbf{Movie S1.} A
+30-second time-lapse showing particle tracking (MP4, 25 MB).
+
+\subsection{Captions for Data}\label{captions-for-data}
+
+Describe supplemental data files or archives. Example: \textbf{Data S1.}
+CSV containing raw measurements for Figures 2--3.
+
+\subsection{References}\label{references}
+
+Cite references in continuation of the main-text numbering, italicized
+in parentheses per Science Advances style.
+
+\end{document}

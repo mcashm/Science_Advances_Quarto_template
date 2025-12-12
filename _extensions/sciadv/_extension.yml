@@ -8,7 +8,8 @@ contributes:
       toc: false
       number-sections: false
       filters:
-        - sciadv-authors.lua
+        - at: pre-render
+          path: sciadv-authors.lua
     pdf:
       template: template.tex
       documentclass: article

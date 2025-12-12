@@ -5,3 +5,6 @@ _extensions/sciadv/template.fls
 _extensions/sciadv/template.log
 _extensions/sciadv/template.out
 _extensions/sciadv/template.synctex.gz
+
+/.luarc.json
+supplement.pdf
