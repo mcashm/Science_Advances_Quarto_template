@@ -113,7 +113,6 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 
 % pandoc-citeproc
 $if(csl-refs)$
@@ -215,7 +214,9 @@ $if(sciadv-author-string)$
 $else$
 $if(author)$
 $for(author)$
-$author$$sep$, $endfor$\\
+$author$$sep$, $endfor$
+    \par
+    \vskip 0.5em%
 $endif$
 $endif$
 $if(sciadv-affiliation-string)$

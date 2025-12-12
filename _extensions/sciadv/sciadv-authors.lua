@@ -1,6 +1,8 @@
 -- Pre-filter that runs before Quarto's author processing
 -- This extracts author information and creates simple template variables
 
+local AFFILIATION_SEPARATOR = '\\\\\n'
+
 local function process_authors(meta)
   if not meta.author then
     return meta
@@ -74,7 +76,7 @@ local function process_authors(meta)
     for _, affil in ipairs(affiliations) do
       table.insert(affil_lines, '\\textsuperscript{' .. affil.num .. '}' .. affil.text)
     end
-    meta['sciadv-affiliation-string'] = pandoc.MetaInlines(pandoc.RawInline('latex', table.concat(affil_lines, '\\\\\n')))
+    meta['sciadv-affiliation-string'] = pandoc.MetaInlines(pandoc.RawInline('latex', table.concat(affil_lines, AFFILIATION_SEPARATOR)))
   end
   
   if corresponding_email then

@@ -113,7 +113,6 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 
 % pandoc-citeproc
 
@@ -145,7 +144,8 @@
   \let \footnote \thanks
     {\LARGE \textbf{\@title} \par}%
     \vskip 1em%
-Jane Q. Researcher, Taylor P. Collaborator\\
+Jane Q. Researcher, Taylor P. Collaborator    \par
+    \vskip 0.5em%
   \end{flushleft}%
   \par
   \vskip 1em}
