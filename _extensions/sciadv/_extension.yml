@@ -7,10 +7,10 @@ contributes:
     common:
       toc: false
       number-sections: false
+      filters:
+        - sciadv-authors.lua
     pdf:
       template: template.tex
-      filters:
-        - author-filter.lua
       documentclass: article
       papersize: letter
       fontsize: 12pt

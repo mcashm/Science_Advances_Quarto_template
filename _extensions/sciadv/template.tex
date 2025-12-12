@@ -208,18 +208,23 @@ $endif$
   \let \footnote \thanks
     {\LARGE \textbf{\@title} \par}%
     \vskip 1em%
-$if(author-string)$
-    $author-string$
+$if(sciadv-author-string)$
+    $sciadv-author-string$
     \par
     \vskip 0.5em%
+$else$
+$if(author)$
+$for(author)$
+$author$$sep$, $endfor$\\
 $endif$
-$if(affiliation-string)$
-    $affiliation-string$
+$endif$
+$if(sciadv-affiliation-string)$
+    $sciadv-affiliation-string$
     \par
     \vskip 0.25em%
 $endif$
-$if(corresponding-email)$
-    $corresponding-email$
+$if(sciadv-corresponding-email)$
+    $sciadv-corresponding-email$
     \par
 $endif$
   \end{flushleft}%
