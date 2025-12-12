@@ -115,24 +115,87 @@
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 % pandoc-citeproc
+$if(csl-refs)$
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+$endif$
 
+$if(colorlinks)$
 \usepackage{hyperref}
 \hypersetup{
-  pdftitle={Concise, descriptive title in sentence case},
-  pdfauthor={Jane Q. Researcher; Taylor P. Collaborator},
-  pdfkeywords={keyword one, keyword two, keyword three},
+$if(title-meta)$
+  pdftitle={$title-meta$},
+$endif$
+$if(author-meta)$
+  pdfauthor={$author-meta$},
+$endif$
+$if(lang)$
+  pdflang={$lang$},
+$endif$
+$if(subject)$
+  pdfsubject={$subject$},
+$endif$
+$if(keywords)$
+  pdfkeywords={$for(keywords)$$keywords$$sep$, $endfor$},
+$endif$
   colorlinks=true,
-  linkcolor={blue},
-  filecolor={Maroon},
-  citecolor={Blue},
-  urlcolor={Blue},
+  linkcolor={$if(linkcolor)$$linkcolor$$else$Maroon$endif$},
+  filecolor={$if(filecolor)$$filecolor$$else$Maroon$endif$},
+  citecolor={$if(citecolor)$$citecolor$$else$Blue$endif$},
+  urlcolor={$if(urlcolor)$$urlcolor$$else$Blue$endif$},
   pdfcreator={LaTeX via pandoc}}
+$else$
+\usepackage{hyperref}
+\hypersetup{
+$if(title-meta)$
+  pdftitle={$title-meta$},
+$endif$
+$if(author-meta)$
+  pdfauthor={$author-meta$},
+$endif$
+$if(lang)$
+  pdflang={$lang$},
+$endif$
+$if(subject)$
+  pdfsubject={$subject$},
+$endif$
+$if(keywords)$
+  pdfkeywords={$for(keywords)$$keywords$$sep$, $endfor$},
+$endif$
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+$endif$
 
 \urlstyle{same} % disable monospaced font for URLs
 
 % Title and author information
-\title{Concise, descriptive title in sentence case}
-\newcommand{\shorttitle}{Short title (max 50 characters)}
+$if(title)$
+\title{$title$}
+$endif$
+$if(short-title)$
+\newcommand{\shorttitle}{$short-title$}
+$endif$
 
 % Custom author formatting with affiliations
 \makeatletter
@@ -144,8 +207,27 @@
   \let \footnote \thanks
     {\LARGE \textbf{\@title} \par}%
     \vskip 1em%
-Jane Q. Researcher, Taylor P. Collaborator    \par
+$if(sciadv-author-string)$
+    $sciadv-author-string$
+    \par
     \vskip 0.5em%
+$else$
+$if(author)$
+$for(author)$
+$author$$sep$, $endfor$
+    \par
+    \vskip 0.5em%
+$endif$
+$endif$
+$if(sciadv-affiliation-string)$
+    $sciadv-affiliation-string$
+    \par
+    \vskip 0.25em%
+$endif$
+$if(sciadv-corresponding-email)$
+    $sciadv-corresponding-email$
+    \par
+$endif$
   \end{flushleft}%
   \par
   \vskip 1em}
@@ -157,116 +239,32 @@ Jane Q. Researcher, Taylor P. Collaborator    \par
 
 \maketitle
 
+$if(abstract)$
 \begin{abstract}
 \noindent
-Provide a single paragraph (\textless160 words) accessible to a broad
-audience. Avoid citations and include a brief problem statement, key
-approach, primary findings, and a short concluding sentence.
+$abstract$
 \end{abstract}
+$endif$
 
+$if(teaser)$
 \noindent
 \textbf{One-sentence summary}
 
 \noindent
-Single-sentence summary under 130 characters.
+$teaser$
 
 \vskip 1em
+$endif$
 
+$if(keywords)$
 \noindent
-\textbf{Keywords:} keyword one, keyword two, keyword three
+\textbf{Keywords:} $for(keywords)$$keywords$$sep$, $endfor$
 
 \vskip 1em
+$endif$
 
-\setstretch{1.2}
+\setstretch{$if(linestretch)$$linestretch$$else$1.2$endif$}
 
-\subsubsection{One-sentence summary}\label{one-sentence-summary}
-
-Single-sentence summary under 130 characters.
-
-\subsubsection{Author notes}\label{author-notes}
-
-\begin{itemize}
-\tightlist
-\item
-  Asterisk (*) marks the corresponding author and should match the
-  e-mail in the author block.
-\item
-  Use symbols (†, ‡, §, \textbar\textbar, ¶, \#, ††, ‡‡) for notes such
-  as equal contribution or present address.
-\end{itemize}
-
-\subsection{Abstract}\label{abstract}
-
-Replace this paragraph with your abstract. Keep it under 160 words and
-avoid citations.
-
-\subsection{Introduction}\label{introduction}
-
-Outline the background and the question or problem being addressed. Keep
-the narrative accessible to a multidisciplinary reader.
-
-\subsection{Results}\label{results}
-
-Describe the core findings in logical order. Cite figures and tables
-inline (for example, ``Fig. 1'' or ``Table 2'').
-
-\subsection{Discussion}\label{discussion}
-
-Interpret the results, highlight limitations, and connect to prior work
-without restating the Results section.
-
-\subsection{Materials and Methods}\label{materials-and-methods}
-
-Provide enough detail for reproducibility. Include statistical tests,
-sample sizes, number of replicates, and any preregistration identifiers
-when applicable.
-
-\subsection{References}\label{references}
-
-Citations follow Science Advances style via the CSL file. Ensure entries
-appear in the order cited.
-
-\subsection{Acknowledgments}\label{acknowledgments}
-
-List any individuals who contributed but are not authors.
-
-\subsection{Funding}\label{funding}
-
-Specify funding sources and grant numbers.
-
-\subsection{Author contributions}\label{author-contributions}
-
-Describe contributions using CRediT-style roles (for example,
-``Conceptualization: JR, TC; Investigation: JR; Writing -- original
-draft: JR; Writing -- review \& editing: JR, TC'').
-
-\subsection{Competing interests}\label{competing-interests}
-
-Disclose any financial or personal relationships that could influence
-the work. State ``The authors declare that they have no competing
-interests'' if none exist.
-
-\subsection{Data and materials
-availability}\label{data-and-materials-availability}
-
-Detail where data, code, and materials can be accessed (with DOIs or
-repository links) and any restrictions.
-
-\subsection{Supplementary Materials}\label{supplementary-materials}
-
-List the sections and figures included in the companion Supplementary
-Materials PDF. Example:
-
-\begin{itemize}
-\tightlist
-\item
-  Materials and Methods
-\item
-  Fig. S1 to S5
-\item
-  Table S1 to S3
-\item
-  References (61--75)
-\end{itemize}
+$body$
 
 \end{document}

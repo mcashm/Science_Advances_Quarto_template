@@ -7,8 +7,10 @@ contributes:
     common:
       toc: false
       number-sections: false
-      csl: https://www.zotero.org/styles/science-advances
+      filters:
+        - sciadv-authors.lua
     pdf:
+      template: template.tex
       documentclass: article
       papersize: letter
       fontsize: 12pt
