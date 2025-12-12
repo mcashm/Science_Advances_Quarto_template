@@ -187,6 +187,39 @@ $endif$
   pdfcreator={LaTeX via pandoc}}
 $endif$
 
+
+% --- Fix for Pandoc/Quarto CSLReferences + \bibitem ("Lonely \item") ---
+% Pandoc sometimes emits: \begin{CSLReferences} ... \bibitem ...
+% \bibitem requires a thebibliography-like list; enforce that here.
+\makeatletter
+\@ifundefined{CSLReferences}{%
+  \newenvironment{CSLReferences}[2]{%
+    \begin{thebibliography}{99}%
+    \setlength{\itemsep}{0pt}%
+    \setlength{\parskip}{0pt}%
+  }{%
+    \end{thebibliography}%
+  }%
+}{%
+  \renewenvironment{CSLReferences}[2]{%
+    \begin{thebibliography}{99}%
+    \setlength{\itemsep}{0pt}%
+    \setlength{\parskip}{0pt}%
+  }{%
+    \end{thebibliography}%
+  }%
+}
+\makeatother
+% --- end fix ---
+
+% ...existing code...
+
+% Pandoc citeproc helper macro (used in \bibitem[...] labels)
+\providecommand{\citeproctext}{}
+
+% ...existing code...
+
+
 \urlstyle{same} % disable monospaced font for URLs
 
 % Title and author information
